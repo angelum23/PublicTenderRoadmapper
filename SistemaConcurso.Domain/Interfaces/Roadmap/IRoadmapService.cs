@@ -7,4 +7,5 @@ namespace SistemaConcurso.Domain.Interfaces.Roadmap;
 public interface IRoadmapService : IBaseService<Roadmaps>
 {
     Task<List<HomeView>> GetHomeData(List<HomeExamView> exams);
+    Task<List<Roadmaps>> GetByExamId(int examId);
 }

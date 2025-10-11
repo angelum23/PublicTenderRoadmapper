@@ -65,4 +65,21 @@ public class BaseController<T>(IBaseApplication<T> aplic) : BasierController whe
             return BadRequest(e.Message);
         }
     }
+    
+    [NonAction]
+    protected async Task<IActionResult> Controller(Task action, string okMessage = "Operation completed successfully!")
+    {
+        try
+        {
+            await action;
+            return Ok(new
+            {
+                Message = okMessage,
+            });
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
+    }
 }

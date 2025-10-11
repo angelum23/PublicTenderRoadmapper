@@ -17,4 +17,16 @@ public class BaseService<T>(IBaseRepository<T> repository) : IBaseService<T> whe
             ? Task.FromResult(repository.Update(entity)) 
             : repository.AddAsync(entity);
     }
+    
+    public Task<T> AddAsync(T entity) => repository.AddAsync(entity);
+    
+    public async Task<List<T>> AddRangeAsync(List<T> entities)
+    {
+        var ret = new List<T>();
+        foreach (var entity in entities)
+        {
+            ret.Add(await repository.AddAsync(entity));
+        }
+        return ret;
+    }
 }

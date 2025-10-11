@@ -4,6 +4,7 @@ using SistemaConcurso.Domain.Interfaces.Base;
 using SistemaConcurso.Domain.Interfaces.Exam;
 using SistemaConcurso.Domain.Views;
 using Microsoft.EntityFrameworkCore;
+using SistemaConcurso.Domain.Dtos;
 
 namespace SistemaConcurso.Domain.Services;
 
@@ -12,5 +13,10 @@ public class ExamService(IExamRepository repository) : BaseService<Exams>(reposi
     public Task<List<HomeExamView>> GetHomeData(IPagination pagination, int userId)
     {
         return repository.GetHomeData(userId, pagination).ToListAsync();
+    }
+
+    public Task<Exams> Add(Exams exam)
+    {
+        return repository.AddAsync(exam);
     }
 }

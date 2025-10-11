@@ -12,7 +12,7 @@ public class BaseApplication<T>(IBaseService<T> service, IUnitOfWork uow) : IBas
 
     public Task<T> FindAsync(int id) => service.FindAsync(id);
 
-    public Task<T> RemoveAsync(int id) => service.RemoveAsync(id);
+    public virtual Task<T> RemoveAsync(int id) => service.RemoveAsync(id);
     
     public Task<T> SaveAsync(T entity) => service.SaveAsync(entity);
 }

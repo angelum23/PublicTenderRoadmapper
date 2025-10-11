@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using SistemaConcurso.Domain.Base;
 using SistemaConcurso.Domain.Base.Interfaces;
 using SistemaConcurso.Domain.Entities;
@@ -12,5 +13,10 @@ public class RoadmapService(IRoadmapRepository repository) : BaseService<Roadmap
     public Task<List<HomeView>> GetHomeData(List<HomeExamView> exams)
     {
         return repository.GetHomeData(exams);
+    }
+
+    public Task<List<Roadmaps>> GetByExamId(int examId)
+    {
+        return repository.Get().Where(x => x.IdExam == examId).ToListAsync();
     }
 }

@@ -1,4 +1,5 @@
 using SistemaConcurso.Domain.Base.Interfaces;
+using SistemaConcurso.Domain.Dtos;
 using SistemaConcurso.Domain.Entities;
 using SistemaConcurso.Domain.Interfaces.Base;
 using SistemaConcurso.Domain.Views;
