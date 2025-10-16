@@ -1,6 +1,6 @@
 namespace SistemaConcurso.Domain.Dtos;
 
-public record ExamWithPrompt(
+public record ExamWithPromptDto(
     string RoadmapName,
     string Prompt
 );

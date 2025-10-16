@@ -7,6 +7,6 @@ namespace SistemaConcurso.Domain.Interfaces.Exam;
 
 public interface IExamApplication : IBaseApplication<Exams>
 {
-    Task<NoticeRegisterView> Add(ExamWithNotice examDto);
-    Task<NoticeRegisterView> Add(ExamWithPrompt examDto);
+    Task<NoticeRegisterView> Add(ExamWithNoticeDto examDto);
+    Task<NoticeRegisterView> Add(ExamWithPromptDto examDto);
 }

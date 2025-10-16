@@ -7,4 +7,5 @@ public interface IAiService
 {
     ExamDataView ExtractExamData(string noticeText);
     ExamDataView SearchExam(string prompt);
+    RoadmapDataView GenerateRoadmap(string selectedJobRole, string notice);
 }

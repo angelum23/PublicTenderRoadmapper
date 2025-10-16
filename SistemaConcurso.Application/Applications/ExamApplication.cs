@@ -22,7 +22,7 @@ public class ExamApplication(IExamService service,
                              IRoadmapService roadmapService) 
     : BaseApplication<Exams>(service, uow), IExamApplication
 {
-    public Task<NoticeRegisterView> Add(ExamWithNotice examDto)
+    public Task<NoticeRegisterView> Add(ExamWithNoticeDto examDto)
     {
         try
         {
@@ -38,7 +38,7 @@ public class ExamApplication(IExamService service,
         }
     }
 
-    public Task<NoticeRegisterView> Add(ExamWithPrompt examDto)
+    public Task<NoticeRegisterView> Add(ExamWithPromptDto examDto)
     {
         try
         {
