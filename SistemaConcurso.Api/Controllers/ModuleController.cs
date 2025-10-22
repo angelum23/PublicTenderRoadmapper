@@ -10,5 +10,5 @@ public class ModuleController(IModuleApplication aplic) : BaseController<Modules
 {
     [HttpGet("List/{roadmapId:int}")]
     public async Task<IActionResult> List([FromHeader] IPagination pagination, int roadmapId) =>
-        await Controller(aplic.List(pagination, roadmapId));
+        await SafeController(aplic.List(pagination, roadmapId));
 }

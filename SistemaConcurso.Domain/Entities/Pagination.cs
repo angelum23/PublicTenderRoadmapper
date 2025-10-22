@@ -1,6 +1,6 @@
 using SistemaConcurso.Domain.Interfaces.Base;
 
-namespace SistemaConcurso.Domain.Base;
+namespace SistemaConcurso.Domain.Entities;
 
 public class Pagination : IPagination
 {

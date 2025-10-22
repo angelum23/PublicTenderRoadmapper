@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using SistemaConcurso.Domain.Base;
 using SistemaConcurso.Domain.Base.Interfaces;
+using SistemaConcurso.Domain.Entities;
 using SistemaConcurso.Domain.Interfaces.Base;
 
 namespace SistemaConcurso.Api.Base;
@@ -8,9 +9,9 @@ namespace SistemaConcurso.Api.Base;
 public class BaseController<T>(IBaseApplication<T> aplic) : BasierController where T : IBaseEntity
 {
     [HttpGet("{id:int}")]
-    public Task<IActionResult> FindAsync(int id) => Controller(aplic.FindAsync(id));
+    public Task<IActionResult> FindAsync(int id) => SafeController(aplic.FindAsync(id));
     [HttpPost("Save")]
-    public Task<IActionResult> SaveAsync([FromBody] T entity) => Controller(aplic.SaveAsync(entity));
+    public Task<IActionResult> SaveAsync([FromBody] T entity) => SafeController(aplic.SaveAsync(entity));
     
     [HttpGet]
     public IActionResult Get([FromQuery] Pagination pagination)
@@ -49,7 +50,7 @@ public class BaseController<T>(IBaseApplication<T> aplic) : BasierController whe
     }
     
     [NonAction]
-    protected async Task<IActionResult> Controller<TView>(Task<TView> action, string okMessage = "Operation completed successfully!")
+    protected async Task<IActionResult> SafeController<TView>(Task<TView> action, string okMessage = "Operation completed successfully!")
     {
         try
         {
@@ -67,7 +68,7 @@ public class BaseController<T>(IBaseApplication<T> aplic) : BasierController whe
     }
     
     [NonAction]
-    protected async Task<IActionResult> Controller(Task action, string okMessage = "Operation completed successfully!")
+    protected async Task<IActionResult> SafeController(Task action, string okMessage = "Operation completed successfully!")
     {
         try
         {

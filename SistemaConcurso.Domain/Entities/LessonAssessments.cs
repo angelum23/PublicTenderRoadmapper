@@ -1,11 +1,12 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using SistemaConcurso.Domain.Base;
+using SistemaConcurso.Domain.Interfaces.DPs;
 
 namespace SistemaConcurso.Domain.Entities;
 
-public class LessonAssessments : BaseEntity
+public class LessonAssessments : BaseEntity, IAssessment
 {
-    public int RetriesCount { get; set; }
+    public int RetryNumber { get; set; }
     
     [ForeignKey("Lesson")]
     public int IdLesson { get; set; }
