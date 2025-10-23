@@ -37,7 +37,7 @@ public class RoadmapApplication(IRoadmapService service,
         var exam = await examService.FindAsync(dto.examId);
         var jobRole = await jobRoleService.FindAsync(dto.selectedJobRoleId);
         
-        var roadmapView = aiService.GenerateRoadmap(jobRole.Name, exam.Notice);
+        var roadmapView = await aiService.GenerateRoadmap(jobRole.Name, exam.Notice);
         var roadmap = roadmapView.ToRoadmap(exam.Id, jobRole.Id);
 
         using (var scope = new TransactionScope())

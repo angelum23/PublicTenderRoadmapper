@@ -5,6 +5,7 @@ namespace SistemaConcurso.Domain.Views.AiViews;
 public class RoadmapDataView
 {
     public string Title { get; set; }
+    public string Description { get; set; }
     public List<ModulesDataView> Modules { get; set; }
     
     public Roadmaps ToRoadmap(int idExam, int idSelectedJobRole)
@@ -12,6 +13,7 @@ public class RoadmapDataView
         return new Roadmaps()
         {
             Title = Title,
+            Description = Description,
             IdExam = idExam,
             IdSelectedJobRole = idSelectedJobRole
         };

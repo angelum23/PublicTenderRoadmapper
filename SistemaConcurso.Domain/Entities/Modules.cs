@@ -1,9 +1,11 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using SistemaConcurso.Domain.Base;
+using SistemaConcurso.Domain.Enums;
+using SistemaConcurso.Domain.Interfaces.DPs;
 
 namespace SistemaConcurso.Domain.Entities;
 
-public class Modules : BaseEntity
+public class Modules : BaseEntity, ISubject
 {
     public string Title { get; set; }
     public string Description { get; set; }
@@ -16,4 +18,6 @@ public class Modules : BaseEntity
     public List<Lessons> Lessons { get; set; } = [];
     
     public List<ModuleAssessments> ModuleAssessment { get; set; } = [];
+
+    public EAssessmentType GetAssessmentType() => EAssessmentType.Module;
 }

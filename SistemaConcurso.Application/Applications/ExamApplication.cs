@@ -22,34 +22,34 @@ public class ExamApplication(IExamService service,
                              IRoadmapService roadmapService) 
     : BaseApplication<Exams>(service, uow), IExamApplication
 {
-    public Task<NoticeRegisterView> Add(ExamWithNoticeDto examDto)
+    public async Task<NoticeRegisterView> Add(ExamWithNoticeDto examDto)
     {
         try
         {
             var noticeText = pdfService.PdfToString(examDto.Notice);
-            var examData = aiService.ExtractExamData(noticeText);
+            var examData = await aiService.ExtractExamData(noticeText);
             var user = claimService.GetLoggedUser();
             
-            return BaseAdd(examData, user.Id);
+            return await BaseAdd(examData, user.Id);
         }
         catch (Exception e)
         {
-            return Task.FromResult(new NoticeRegisterView([], e.Message));
+            return new NoticeRegisterView([], e.Message);
         }
     }
 
-    public Task<NoticeRegisterView> Add(ExamWithPromptDto examDto)
+    public async Task<NoticeRegisterView> Add(ExamWithPromptDto examDto)
     {
         try
         {
-            var examData = aiService.SearchExam(examDto.Prompt);
+            var examData = await aiService.SearchExam(examDto.Prompt);
             var user = claimService.GetLoggedUser();
             
-            return BaseAdd(examData, user.Id);
+            return await BaseAdd(examData, user.Id);
         }
         catch (Exception e)
         {
-            return Task.FromResult(new NoticeRegisterView([], e.Message));
+            return new NoticeRegisterView([], e.Message);
         }
     }
     

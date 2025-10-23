@@ -1,17 +1,41 @@
+using SistemaConcurso.Domain.Base.Extensions;
 using SistemaConcurso.Domain.Entities;
+using SistemaConcurso.Domain.Enums;
 using SistemaConcurso.Domain.Interfaces.Ai;
+using SistemaConcurso.Domain.Interfaces.DPs;
 using SistemaConcurso.Domain.Views.AiViews;
 
 namespace SistemaConcurso.Domain.Services;
 
 public class AiMockService : IAiService
 {
-    public ExamDataView ExtractExamData(string noticeText) => GetExamMock(noticeText);
-    public ExamDataView SearchExam(string prompt) => GetExamMock();
-    public RoadmapDataView GenerateRoadmap(string selectedJobRole, string notice) => GetRoadmapMock(selectedJobRole, notice);
-    
-    #region Mocks
+    public Task<ExamDataView> ExtractExamData(string noticeText) => Task.FromResult(GetExamMock(noticeText));
+    public Task<ExamDataView> SearchExam(string prompt) => Task.FromResult(GetExamMock());
+    public Task<RoadmapDataView> GenerateRoadmap(string selectedJobRole, string notice) => Task.FromResult(GetRoadmapMock(selectedJobRole, notice));
+    public Task<List<Questions>> GenerateQuestions(ISubject subject, int quantity) => Task.FromResult(GetQuestionsMock(subject, quantity));
 
+
+    #region Mocks
+    
+    private static List<Questions> GetQuestionsMock(ISubject subject, int quantity)
+    {
+        var question = new QuestionView
+        {
+            Question = "Which one is the correct option?",
+            Origin = EOriginExtensions.FromAssessmentType(subject.GetAssessmentType()),
+            OptionA = "Option A?",
+            OptionB = "Option B?",
+            OptionC = "Option C?",
+            OptionD = "Option D?",
+            CorrectOption = EOptionChar.A
+        };
+        
+        var questions = Enumerable.Repeat(question, quantity).ToList();
+        ListExtensions.Times(quantity).ForEach(x => questions[x].Order = x + 1);
+        
+        return questions;
+    }
+    
     private static ExamDataView GetExamMock(string noticeText = "") =>
         new()
         {
@@ -45,6 +69,7 @@ public class AiMockService : IAiService
         new()
         {
             Title = "Roadmap do carlão",
+            Description = $"Roadmap para o cargo de {selectedJobRole} baseado no edital:\n{notice}",
             Modules =
             [
                 new ModulesDataView

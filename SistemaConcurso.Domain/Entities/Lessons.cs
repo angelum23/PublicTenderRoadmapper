@@ -2,10 +2,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 using SistemaConcurso.Domain.Base;
 using SistemaConcurso.Domain.Enums;
 using SistemaConcurso.Domain.Exceptions;
+using SistemaConcurso.Domain.Interfaces.DPs;
 
 namespace SistemaConcurso.Domain.Entities;
 
-public class Lessons : BaseEntity
+public class Lessons : BaseEntity, ISubject
 {
     public string Title { get; set; }
     public string Description { get; set; }
@@ -31,6 +32,8 @@ public class Lessons : BaseEntity
         if (!Done) throw new RuleException(EException.LessonAlreadyTodo);
         Done = false;
     }
-    
+
+    public EAssessmentType GetAssessmentType() => EAssessmentType.Lesson;
+
     #endregion
 }
