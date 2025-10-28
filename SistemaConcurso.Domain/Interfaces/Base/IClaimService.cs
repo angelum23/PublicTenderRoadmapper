@@ -5,4 +5,5 @@ namespace SistemaConcurso.Domain.Interfaces.Base;
 public interface IClaimService
 {
     UserClaimView GetLoggedUser();
+    int GetLoggedUserId();
 }

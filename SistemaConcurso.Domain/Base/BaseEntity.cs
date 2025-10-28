@@ -24,6 +24,7 @@ public class BaseEntity : IBaseEntity
     public bool Removed { get; private set; }
     public DateTime RegisterDate { get; set; }
     public DateTime LastUpdateDate { get; set; }
+    public int UserId { get; set; }
 
     public void Remove()
     {

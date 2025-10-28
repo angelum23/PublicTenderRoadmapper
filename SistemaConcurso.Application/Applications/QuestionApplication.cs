@@ -30,15 +30,22 @@ public class QuestionApplication(IQuestionService service,
         {
             var assessmentService = factory.CreateService(dto.Origin);
             var reg = await assessmentService.AddAsync(assessment, dto.SubjectId);
-            await uow.CommitAsync();
+            await CommitAsync();
             
             var questions = view.ToQuestions(dto.SubjectId, dto.Origin);
             questions.ForEach(x => x.SetAssessment(reg.Id, dto.Origin));
             await questionService.AddRangeAsync(questions);
+            await CommitAsync();
             
             scope.Complete();
         }
 
         return view;
+    }
+
+    public async Task Answer(AnswerDto dto)
+    {
+        await service.Answer(dto);
+        await CommitAsync();
     }
 }

@@ -6,6 +6,7 @@ public interface IBaseEntity
     public bool Removed { get; }
     public DateTime RegisterDate { get; set; }
     public DateTime LastUpdateDate { get; set; }
+    public int UserId { get; set; }
     public void Remove();
     public void Recover();
 }

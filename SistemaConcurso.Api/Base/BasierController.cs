@@ -10,6 +10,7 @@ namespace SistemaConcurso.Api.Base;
 [Route("api/[controller]")]
 public class BasierController : ControllerBase
 {
+    [NonAction]
     public IActionResult Error(Exception e, string? message = null)
     {
         if (e is RuleException)
@@ -21,6 +22,7 @@ public class BasierController : ControllerBase
         return BadRequest(returnMessage);
     }
     
+    [NonAction]
     public IActionResult Error(Exception e, EException eException)
     {
         var returnMessage = eException.GetDescription();

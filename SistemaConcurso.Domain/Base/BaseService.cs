@@ -13,19 +13,25 @@ public class BaseService<T>(IBaseRepository<T> repository) : IBaseService<T> whe
     
     public Task<T> SaveAsync(T entity)
     {
-        return entity.Id > 0 
-            ? Task.FromResult(repository.Update(entity)) 
-            : repository.AddAsync(entity);
+        return entity.Id > 0
+            ? Update(entity) 
+            : AddAsync(entity);
+    }
+
+    protected Task<T> Update(T entity)
+    {
+        var reg = repository.Update(entity);
+        return Task.FromResult(reg);
     }
     
-    public Task<T> AddAsync(T entity) => repository.AddAsync(entity);
+    protected Task<T> AddAsync(T entity) => repository.AddAsync(entity);
     
     public async Task<List<T>> AddRangeAsync(List<T> entities)
     {
         var ret = new List<T>();
         foreach (var entity in entities)
         {
-            ret.Add(await repository.AddAsync(entity));
+            ret.Add(await AddAsync(entity));
         }
         return ret;
     }

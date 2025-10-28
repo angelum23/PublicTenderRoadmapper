@@ -43,11 +43,11 @@ public class RoadmapApplication(IRoadmapService service,
         using (var scope = new TransactionScope())
         {
             var reg = await service.SaveAsync(roadmap);
-            await uow.CommitAsync();
+            await CommitAsync();
 
             var modules = roadmapView.Modules.Select(x => x.ToModule(reg.Id)).ToList();
             var regModules = await moduleService.AddRangeAsync(modules);
-            await uow.CommitAsync();
+            await CommitAsync();
             
             var lessons = roadmapView
                 .Modules
@@ -55,7 +55,7 @@ public class RoadmapApplication(IRoadmapService service,
                 .ToList();
             
             await lessonService.AddRangeAsync(lessons);
-            await uow.CommitAsync();
+            await CommitAsync();
             
             scope.Complete();
         }

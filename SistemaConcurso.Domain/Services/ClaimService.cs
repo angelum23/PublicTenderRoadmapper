@@ -22,4 +22,15 @@ public class ClaimService(IHttpContextAccessor accessor) : IClaimService
         
         return new UserClaimView(int.Parse(userId), username);
     }
+
+    public int GetLoggedUserId()
+    {
+        var user = accessor.HttpContext?.User;
+        if (user == null) throw new RuleException(EException.LoggedUserNotFound);
+        
+        var userId = user.FindFirstValue(ClaimTypes.NameIdentifier);
+        if (userId == null) throw new RuleException(EException.LoggedUserNotFound);
+
+        return int.Parse(userId);
+    }
 }

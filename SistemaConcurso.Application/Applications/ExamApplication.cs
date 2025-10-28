@@ -55,12 +55,16 @@ public class ExamApplication(IExamService service,
     
     private async Task<NoticeRegisterView> BaseAdd(ExamDataView examData, int userId)
     {
-        var exam = await service.AddAsync(examData.ToExam(userId));
-        await uow.CommitAsync();
+        List<JobRoles> jobRoles;
+        using (var scope = new TransactionScope())
+        {
+            var exam = await service.SaveAsync(examData.ToExam(userId));
+            await CommitAsync();
 
-        var jobRoles = examData.ToJobRoles(exam.Id);
-        await jobRoleService.AddRangeAsync(jobRoles);
-        await uow.CommitAsync();
+            jobRoles = examData.ToJobRoles(exam.Id);
+            await jobRoleService.AddRangeAsync(jobRoles);
+            await CommitAsync();
+        }
         
         return new NoticeRegisterView(
             jobRoles.Select(x => new NoticeJobsView(
@@ -75,11 +79,11 @@ public class ExamApplication(IExamService service,
         {
             var jobRoles = (await jobRoleService.GetByExamId(id)).Select(x => x.Id).ToList();
             jobRoles.ForEach(x => jobRoleService.RemoveAsync(x));
-            await uow.CommitAsync();
+            await CommitAsync();
             
             var roadmaps = (await roadmapService.GetByExamId(id)).Select(x => x.Id).ToList();
             roadmaps.ForEach(x => roadmapService.RemoveAsync(x));
-            await uow.CommitAsync();
+            await CommitAsync();
             
             scope.Complete();
             return await base.RemoveAsync(id);

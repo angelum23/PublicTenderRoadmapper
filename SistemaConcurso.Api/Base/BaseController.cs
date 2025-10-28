@@ -10,6 +10,7 @@ public class BaseController<T>(IBaseApplication<T> aplic) : BasierController whe
 {
     [HttpGet("{id:int}")]
     public Task<IActionResult> FindAsync(int id) => SafeController(aplic.FindAsync(id));
+    
     [HttpPost("Save")]
     public Task<IActionResult> SaveAsync([FromBody] T entity) => SafeController(aplic.SaveAsync(entity));
     

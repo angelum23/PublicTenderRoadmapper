@@ -37,13 +37,6 @@ public interface IBaseService<T>
     Task<T> RemoveAsync(int id);
     
     /// <summary>
-    /// Adds an entity to the repository.
-    /// </summary>
-    /// <param name="entity">The entity to add.</param>
-    /// <returns>The added entity.</returns>
-    Task<T> AddAsync(T entity);
-    
-    /// <summary>
     /// Adds a range of entities to the repository.
     /// </summary>
     /// <param name="entities">The entities to add.</param>
