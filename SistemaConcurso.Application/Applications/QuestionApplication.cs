@@ -1,3 +1,4 @@
+using System.Transactions;
 using SistemaConcurso.Application.Base;
 using SistemaConcurso.Domain.DPs;
 using SistemaConcurso.Domain.Dtos;
@@ -9,15 +10,35 @@ using SistemaConcurso.Domain.Views.AiViews;
 
 namespace SistemaConcurso.Application.Applications;
 
-public class QuestionApplication(IQuestionService service, IUnitOfWork uow, IAiService aiService, AssessmentFactory factory) : BaseApplication<Questions>(service, uow), IQuestionApplication
+public class QuestionApplication(IQuestionService service, 
+                                 IUnitOfWork uow, 
+                                 IAiService aiService, 
+                                 AssessmentFactory factory, 
+                                 IQuestionService questionService) 
+    : BaseApplication<Questions>(service, uow), IQuestionApplication
 {
     public async Task<QuestionGenerationView> Generate(GenerateQuestionDto dto)
     {
-        var service = factory.CreateSubjectService(dto.type);
-        var subject = await service.FindAsync(dto.SubjectId);
+        var subjectService = factory.CreateSubjectService(dto.Origin);
+        var subject = await subjectService.FindAsync(dto.SubjectId);
         
-        var questions = await aiService.GenerateQuestions(subject, dto.Quantity);
+        var questionViews = await aiService.GenerateQuestions(subject, dto.Quantity);
+        var view = new QuestionGenerationView { Questions = questionViews };
+        var assessment = factory.Create(dto.Origin);
         
-        throw new NotImplementedException();
+        using (var scope = new TransactionScope())
+        {
+            var assessmentService = factory.CreateService(dto.Origin);
+            var reg = await assessmentService.AddAsync(assessment, dto.SubjectId);
+            await uow.CommitAsync();
+            
+            var questions = view.ToQuestions(dto.SubjectId, dto.Origin);
+            questions.ForEach(x => x.SetAssessment(reg.Id, dto.Origin));
+            await questionService.AddRangeAsync(questions);
+            
+            scope.Complete();
+        }
+
+        return view;
     }
 }

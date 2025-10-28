@@ -13,35 +13,35 @@ namespace SistemaConcurso.Domain.DPs;
 
 public class AssessmentFactory(IServiceProvider serviceProvider)
 {
-    public static IAssessment Create(EAssessmentType assessmentType)
+    public IAssessment Create(EOrigin origin)
     {
-        return assessmentType switch
+        return origin switch
         {
-            EAssessmentType.Lesson => new LessonAssessments(),
-            EAssessmentType.Module => new ModuleAssessments(),
-            EAssessmentType.Roadmap => new RoadmapAssessments(),
+            EOrigin.Lesson => new LessonAssessments(),
+            EOrigin.Module => new ModuleAssessments(),
+            EOrigin.Assessment => new RoadmapAssessments(),
             _ => throw new NotSupportedException()
         };
     }
     
-    public IAssessmentService CreateService(EAssessmentType assessmentType)
+    public IAssessmentService CreateService(EOrigin origin)
     {
-        return assessmentType switch
+        return origin switch
         {
-            EAssessmentType.Lesson => serviceProvider.GetRequiredService<ILessonAssessmentService>(),
-            EAssessmentType.Module => serviceProvider.GetRequiredService<IModuleAssessmentService>(),
-            EAssessmentType.Roadmap => serviceProvider.GetRequiredService<IRoadmapAssessmentService>(),
+            EOrigin.Lesson => serviceProvider.GetRequiredService<ILessonAssessmentService>(),
+            EOrigin.Module => serviceProvider.GetRequiredService<IModuleAssessmentService>(),
+            EOrigin.Assessment => serviceProvider.GetRequiredService<IRoadmapAssessmentService>(),
             _ => throw new NotSupportedException()
         };
     }
     
-    public ISubjectService CreateSubjectService(EAssessmentType assessmentType)
+    public ISubjectService CreateSubjectService(EOrigin origin)
     {
-        return assessmentType switch
+        return origin switch
         {
-            EAssessmentType.Lesson => serviceProvider.GetRequiredService<ILessonService>(),
-            EAssessmentType.Module => serviceProvider.GetRequiredService<IModuleService>(),
-            EAssessmentType.Roadmap => serviceProvider.GetRequiredService<IRoadmapService>(),
+            EOrigin.Lesson => serviceProvider.GetRequiredService<ILessonService>(),
+            EOrigin.Module => serviceProvider.GetRequiredService<IModuleService>(),
+            EOrigin.Assessment => serviceProvider.GetRequiredService<IRoadmapService>(),
             _ => throw new NotSupportedException()
         };
     }

@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using SistemaConcurso.Domain.Base;
+using SistemaConcurso.Domain.Enums;
 using SistemaConcurso.Domain.Interfaces.DPs;
 
 namespace SistemaConcurso.Domain.Entities;

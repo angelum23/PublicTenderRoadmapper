@@ -24,5 +24,5 @@ public class RoadmapService(IRoadmapRepository repository) : BaseService<Roadmap
 
     public new async Task<ISubject> FindAsync(int subjectId) => await base.FindAsync(subjectId);
 
-    public EAssessmentType GetAssessmentType() => EAssessmentType.Roadmap;
+    public EOrigin GetAssessmentType() => EOrigin.Assessment;
 }

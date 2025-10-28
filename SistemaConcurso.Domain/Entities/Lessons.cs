@@ -33,7 +33,7 @@ public class Lessons : BaseEntity, ISubject
         Done = false;
     }
 
-    public EAssessmentType GetAssessmentType() => EAssessmentType.Lesson;
-
+    public EOrigin GetAssessmentType() => EOrigin.Lesson;
+    
     #endregion
 }

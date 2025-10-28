@@ -21,5 +21,5 @@ public class Roadmaps : BaseEntity, ISubject
     public List<Modules> Modules { get; set; } = [];
     public List<RoadmapAssessments> RoadmapAssessment { get; set; } = [];
 
-    public EAssessmentType GetAssessmentType() => EAssessmentType.Roadmap;
+    public EOrigin GetAssessmentType() => EOrigin.Assessment;
 }

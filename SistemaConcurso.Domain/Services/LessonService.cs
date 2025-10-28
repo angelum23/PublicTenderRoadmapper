@@ -9,7 +9,7 @@ namespace SistemaConcurso.Domain.Services;
 
 public class LessonService(IBaseRepository<Lessons> repository) : BaseService<Lessons>(repository), ILessonService
 {
-    public EAssessmentType GetAssessmentType() => EAssessmentType.Lesson;
+    public EOrigin GetAssessmentType() => EOrigin.Lesson;
     public new async Task<ISubject> FindAsync(int subjectId) => await base.FindAsync(subjectId);
 
 }

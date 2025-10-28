@@ -19,5 +19,5 @@ public class Modules : BaseEntity, ISubject
     
     public List<ModuleAssessments> ModuleAssessment { get; set; } = [];
 
-    public EAssessmentType GetAssessmentType() => EAssessmentType.Module;
+    public EOrigin GetAssessmentType() => EOrigin.Module;
 }

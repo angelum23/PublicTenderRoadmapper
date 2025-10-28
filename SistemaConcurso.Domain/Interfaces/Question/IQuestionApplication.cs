@@ -1,10 +1,11 @@
 using SistemaConcurso.Domain.Dtos;
 using SistemaConcurso.Domain.Entities;
 using SistemaConcurso.Domain.Interfaces.Base;
+using SistemaConcurso.Domain.Views.AiViews;
 
 namespace SistemaConcurso.Domain.Interfaces.Question;
 
 public interface IQuestionApplication : IBaseApplication<Questions>
 {
-    Task Generate(GenerateQuestionDto dto);
+    Task<QuestionGenerationView> Generate(GenerateQuestionDto dto);
 }

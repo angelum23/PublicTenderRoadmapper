@@ -6,5 +6,5 @@ public interface ISubject
 {
     public string Title { get; set; }
     public string Description { get; set; }
-    public EAssessmentType GetAssessmentType();
+    public EOrigin GetAssessmentType();
 }

@@ -6,21 +6,33 @@ namespace SistemaConcurso.Domain.Views.AiViews;
 public class QuestionGenerationView
 {
     public List<QuestionView> Questions { get; set; }
-    
-    public List<Questions> ToQuestions(int idAssessment)
-    {
-        return Questions.Select(q => new Questions()
+
+    #region Methods
+    public List<Questions> ToQuestions(int idAssessment, EOrigin? origin) => 
+        Questions.Select(q => new Questions
         {
             Question = q.Question,
-            Origin = q.Origin,
+            Origin = origin ?? q.Origin,
             Order = q.Order,
+            IdLessonAssessment = SetIdLessonAssessment(origin ?? q.Origin, idAssessment),
+            IdModuleAssessment = SetIdModuleAssessment(origin ?? q.Origin, idAssessment),
+            IdRoadmapAssessment = SetIdRoadmapAssessment(origin ?? q.Origin, idAssessment),
             OptionA = q.OptionA,
             OptionB = q.OptionB,
             OptionC = q.OptionC,
             OptionD = q.OptionD,
             CorrectOption = q.CorrectOption,
         }).ToList();
-    }
+
+    private static int? SetIdLessonAssessment(EOrigin origin, int idAssessment) =>
+        origin == EOrigin.Lesson ? idAssessment : null;
+
+    private static int? SetIdModuleAssessment(EOrigin origin, int idAssessment) =>
+        origin == EOrigin.Module ? idAssessment : null;
+
+    private static int? SetIdRoadmapAssessment(EOrigin origin, int idAssessment) =>
+        origin == EOrigin.Assessment ? idAssessment : null;
+    #endregion
 }
 
 public class QuestionView

@@ -16,11 +16,11 @@ public enum EOrigin
 
 public static class EOriginExtensions
 {
-    public static EOrigin FromAssessmentType(EAssessmentType type) => type switch
+    public static EOrigin FromAssessmentType(EOrigin type) => type switch
     {
-        EAssessmentType.Roadmap => EOrigin.Assessment,
-        EAssessmentType.Module => EOrigin.Module,
-        EAssessmentType.Lesson => EOrigin.Lesson,
+        EOrigin.Assessment => EOrigin.Assessment,
+        EOrigin.Module => EOrigin.Module,
+        EOrigin.Lesson => EOrigin.Lesson,
         _ => throw new ArgumentOutOfRangeException(nameof(type), $"Not expected assessment type value: {type}"),
     };
 }

@@ -12,12 +12,12 @@ public class AiMockService : IAiService
     public Task<ExamDataView> ExtractExamData(string noticeText) => Task.FromResult(GetExamMock(noticeText));
     public Task<ExamDataView> SearchExam(string prompt) => Task.FromResult(GetExamMock());
     public Task<RoadmapDataView> GenerateRoadmap(string selectedJobRole, string notice) => Task.FromResult(GetRoadmapMock(selectedJobRole, notice));
-    public Task<List<Questions>> GenerateQuestions(ISubject subject, int quantity) => Task.FromResult(GetQuestionsMock(subject, quantity));
+    public Task<List<QuestionView>> GenerateQuestions(ISubject subject, int quantity) => Task.FromResult(GetQuestionsMock(subject, quantity));
 
 
     #region Mocks
     
-    private static List<Questions> GetQuestionsMock(ISubject subject, int quantity)
+    private static List<QuestionView> GetQuestionsMock(ISubject subject, int quantity)
     {
         var question = new QuestionView
         {

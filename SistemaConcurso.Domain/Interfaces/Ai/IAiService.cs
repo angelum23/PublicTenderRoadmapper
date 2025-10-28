@@ -9,5 +9,5 @@ public interface IAiService
     Task<ExamDataView> ExtractExamData(string noticeText);
     Task<ExamDataView> SearchExam(string prompt);
     Task<RoadmapDataView> GenerateRoadmap(string selectedJobRole, string notice);
-    Task<List<Questions>> GenerateQuestions(ISubject subject, int quantity);
+    Task<List<QuestionView>> GenerateQuestions(ISubject subject, int quantity);
 }

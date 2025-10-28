@@ -32,4 +32,24 @@ public class Questions : BaseEntity
     [ForeignKey("RoadmapAssessment")]
     public int? IdRoadmapAssessment { get; set; }
     public RoadmapAssessments? RoadmapAssessment { get; set; }
+    
+    #region Methods
+    public void SetAssessment(int assessmentId, EOrigin origin)
+    {
+        switch (origin)
+        {
+            case EOrigin.Lesson:
+                IdLessonAssessment = assessmentId;
+                break;
+            case EOrigin.Module:
+                IdModuleAssessment = assessmentId;
+                break;
+            case EOrigin.Assessment:
+                IdRoadmapAssessment = assessmentId;
+                break;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(origin), origin, null);
+        }
+    }
+    #endregion
 }
