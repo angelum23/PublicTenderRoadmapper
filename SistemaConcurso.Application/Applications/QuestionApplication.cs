@@ -1,10 +1,10 @@
 using System.Transactions;
 using SistemaConcurso.Application.Base;
-using SistemaConcurso.Domain.DPs;
 using SistemaConcurso.Domain.Dtos;
 using SistemaConcurso.Domain.Entities;
 using SistemaConcurso.Domain.Interfaces;
 using SistemaConcurso.Domain.Interfaces.Ai;
+using SistemaConcurso.Domain.Interfaces.DPs;
 using SistemaConcurso.Domain.Interfaces.Question;
 using SistemaConcurso.Domain.Views.AiViews;
 
@@ -13,7 +13,7 @@ namespace SistemaConcurso.Application.Applications;
 public class QuestionApplication(IQuestionService service, 
                                  IUnitOfWork uow, 
                                  IAiService aiService, 
-                                 AssessmentFactory factory, 
+                                 IAssessmentFactory factory, 
                                  IQuestionService questionService) 
     : BaseApplication<Questions>(service, uow), IQuestionApplication
 {

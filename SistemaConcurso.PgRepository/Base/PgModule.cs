@@ -3,6 +3,8 @@ using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 using SistemaConcurso.Domain.Interfaces;
 using SistemaConcurso.Domain.Interfaces.DependencyInjection;
+using SistemaConcurso.Domain.Interfaces.ModuleAssessment;
+using SistemaConcurso.PgRepository.Repositories;
 
 namespace SistemaConcurso.PgRepository.Base;
 
@@ -21,6 +23,7 @@ public static class PgModule
             .WithScopedLifetime());
         
         services.AddScoped<IUnitOfWork, UnitOfWork>();
+        services.AddScoped<IModuleAssessmentRepository, ModuleAssessmentRepository>();
         
         return services;
     }

@@ -11,7 +11,7 @@ using SistemaConcurso.Domain.Interfaces.RoadmapAssessment;
 
 namespace SistemaConcurso.Domain.DPs;
 
-public class AssessmentFactory(IServiceProvider serviceProvider)
+public class AssessmentFactory(IServiceProvider serviceProvider) : IAssessmentFactory
 {
     public IAssessment Create(EOrigin origin)
     {
