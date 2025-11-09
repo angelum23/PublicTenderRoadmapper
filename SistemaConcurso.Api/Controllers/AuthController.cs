@@ -18,7 +18,7 @@ public class AuthController : BasierController
 {
     private readonly IAuthApplication _application;
     private readonly IJwtSetting _jwt;
-
+    
     public AuthController(IAuthApplication application, IOptions<JwtSetting> jwt)
     {
         _jwt = jwt.Value;

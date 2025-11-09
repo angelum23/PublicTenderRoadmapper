@@ -5,6 +5,7 @@ using Microsoft.IdentityModel.Tokens;
 using SistemaConcurso.Application.Base;
 using SistemaConcurso.Domain.Base;
 using SistemaConcurso.Domain.Entities;
+using SistemaConcurso.Domain.Interfaces.Ai;
 using SistemaConcurso.Domain.Interfaces.Token;
 using SistemaConcurso.Domain.Services;
 using SistemaConcurso.PgRepository.Base;
@@ -49,6 +50,11 @@ builder.Services
     .AddDbContext<PgDbContext>(options => options.UseNpgsql(connectionString))
     .AddAuthorization()
     .AddControllers();
+
+builder.Services.AddHttpClient<IAiService, AiService>(client =>
+{
+    client.BaseAddress = new Uri("http://127.0.0.1:5000/");
+});
 
 var app = builder.Build();
 
