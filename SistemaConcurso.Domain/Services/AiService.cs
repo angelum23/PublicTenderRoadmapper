@@ -7,7 +7,7 @@ using SistemaConcurso.Domain.Views;
 
 namespace SistemaConcurso.Domain.Services;
 
-public class AiService(HttpClient httpClient) : IAiService
+public class AiService(HttpClient httpClient) //: IAiService
 {
     private const string ExtractExamDataEndpoint = "extract_notice_data";
     private const string SearchExamEndpoint = "search_notice";

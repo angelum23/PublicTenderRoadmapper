@@ -6,6 +6,7 @@ using SistemaConcurso.Domain.Interfaces.Module;
 
 namespace SistemaConcurso.Api.Controllers;
 
+
 public class ModuleController(IModuleApplication aplic) : BaseController<Modules>(aplic)
 {
     [HttpGet("List/{roadmapId:int}")]

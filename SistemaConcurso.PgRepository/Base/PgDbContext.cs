@@ -9,7 +9,7 @@ namespace SistemaConcurso.PgRepository.Base;
 
 public class PgDbContext(DbContextOptions options, IClaimService claimService) : DbContext(options)
 {
-    public int CurrentUserId { get; set; } = claimService.GetLoggedUserId();
+    public int CurrentUserId { get; set; } = claimService.TryGetLoggedUserId();
     
     public DbSet<Exams> Exams { get; set; }
     public DbSet<JobRoles> JobRoles { get; set; }

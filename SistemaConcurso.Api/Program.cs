@@ -51,10 +51,10 @@ builder.Services
     .AddAuthorization()
     .AddControllers();
 
-builder.Services.AddHttpClient<IAiService, AiService>(client =>
-{
-    client.BaseAddress = new Uri("http://127.0.0.1:5000/");
-});
+//builder.Services.AddHttpClient<IAiService, AiService>(client =>
+//{
+//    client.BaseAddress = new Uri("http://127.0.0.1:5000/");
+//});
 
 var app = builder.Build();
 

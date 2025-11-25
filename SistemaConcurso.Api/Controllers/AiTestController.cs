@@ -1,8 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using SistemaConcurso.Domain.Interfaces; // Onde sua IAiService está
-using SistemaConcurso.Domain.Dtos;      // Onde seu DTO acima está
-using System;
-using System.Threading.Tasks;
 using SistemaConcurso.Domain.Interfaces.Ai;
 using SistemaConcurso.Domain.Services;
 
