@@ -11,8 +11,18 @@ namespace SistemaConcurso.Api.Base;
 public class BasierController : ControllerBase
 {
     [NonAction]
-    public IActionResult Error(Exception e, string? message = null)
+    protected IActionResult Error(Exception e, string? message = null)
     {
+        Console.WriteLine("=================================================");
+        Console.WriteLine($"[ERROR] {DateTime.Now}");
+        Console.WriteLine($"Message: {e.Message}");
+        Console.WriteLine($"Stack Trace: {e.StackTrace}");
+        if (e.InnerException != null)
+        {
+            Console.WriteLine($"Inner Exception: {e.InnerException.Message}");
+        }
+        Console.WriteLine("=================================================");
+        
         if (e is RuleException)
         {
             return BadRequest(e.Message);
@@ -23,9 +33,30 @@ public class BasierController : ControllerBase
     }
     
     [NonAction]
-    public IActionResult Error(Exception e, EException eException)
+    protected IActionResult Error(Exception e, EException eException)
     {
         var returnMessage = eException.GetDescription();
         return Error(e, returnMessage);
+    }
+    
+    protected IActionResult HandleError(Exception e)
+    {
+        Console.WriteLine("=================================================");
+        Console.WriteLine($"[ERROR] {DateTime.Now}");
+        Console.WriteLine($"Message: {e.Message}");
+        Console.WriteLine($"Stack Trace: {e.StackTrace}");
+        if (e.InnerException != null)
+        {
+            Console.WriteLine($"Inner Exception: {e.InnerException.Message}");
+        }
+        Console.WriteLine("=================================================");
+
+        return StatusCode(500, new
+        {
+            success = false,
+            message = e.Message,
+            innerException = e.InnerException?.Message,
+            stackTrace = e.StackTrace
+        });
     }
 }
