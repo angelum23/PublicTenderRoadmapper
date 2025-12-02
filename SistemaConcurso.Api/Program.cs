@@ -58,10 +58,7 @@ builder.Services.AddHttpClient<IAiService, AiMockService>(client =>
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
-{
-    app.MapOpenApi();
-}
+app.MapOpenApi();
 
 app.UseHttpsRedirection();
 app.UseAuthentication();
