@@ -1,5 +1,4 @@
 using SistemaConcurso.Domain.Base.Extensions;
-using SistemaConcurso.Domain.Entities;
 using SistemaConcurso.Domain.Enums;
 using SistemaConcurso.Domain.Interfaces.Ai;
 using SistemaConcurso.Domain.Interfaces.DPs;

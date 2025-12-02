@@ -2,6 +2,7 @@ namespace SistemaConcurso.Domain.Views;
 
 public record NoticeRegisterView(
     List<NoticeJobsView> Jobs,
+    int IdExam,
     string? Error
 );
 

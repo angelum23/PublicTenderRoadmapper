@@ -7,8 +7,9 @@ using SistemaConcurso.Domain.Views;
 
 namespace SistemaConcurso.Domain.Services;
 
-public class AiService(HttpClient httpClient) //: IAiService
+public class AiService(HttpClient httpClient)// : IAiService
 {
+    public const string BaseUrl = "http://127.0.0.1:5000/";
     private const string ExtractExamDataEndpoint = "extract_notice_data";
     private const string SearchExamEndpoint = "search_notice";
     private const string GenerateRoadmapEndpoint = "extract_roadmap";

@@ -34,7 +34,7 @@ public class ExamApplication(IExamService service,
         }
         catch (Exception e)
         {
-            return new NoticeRegisterView([], e.Message);
+            return new NoticeRegisterView([], 0, e.Message);
         }
     }
 
@@ -49,16 +49,18 @@ public class ExamApplication(IExamService service,
         }
         catch (Exception e)
         {
-            return new NoticeRegisterView([], e.Message);
+            return new NoticeRegisterView([], 0, e.Message);
         }
     }
     
     private async Task<NoticeRegisterView> BaseAdd(ExamDataView examData, int userId)
     {
         List<JobRoles> jobRoles;
+        Exams exam;
+        
         using (var scope = new TransactionScope())
         {
-            var exam = await service.SaveAsync(examData.ToExam(userId));
+            exam = await service.SaveAsync(examData.ToExam(userId));
             await CommitAsync();
 
             jobRoles = examData.ToJobRoles(exam.Id);
@@ -67,9 +69,9 @@ public class ExamApplication(IExamService service,
         }
         
         return new NoticeRegisterView(
-            jobRoles.Select(x => new NoticeJobsView(
-                x.Id, x.Name
-            )).ToList(), null
+            Jobs: jobRoles.Select(x => new NoticeJobsView(x.Id, x.Name)).ToList(),
+            IdExam: exam.Id, 
+            Error: null
         );
     }
 
