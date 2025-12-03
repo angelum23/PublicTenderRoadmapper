@@ -13,4 +13,8 @@ public class LessonAssessments : BaseEntity, IAssessment
     public int IdLesson { get; set; }
     public Lessons? Lesson { get; set; }
     public List<Questions> Questions { get; set; } = [];
+    public void SetId(int id)
+    {
+        IdLesson = id;
+    }
 }

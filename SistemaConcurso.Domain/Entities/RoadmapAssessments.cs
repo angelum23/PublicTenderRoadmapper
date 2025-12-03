@@ -13,4 +13,8 @@ public class RoadmapAssessments : BaseEntity, IAssessment
     public int IdRoadmap { get; set; }
     public Roadmaps? Roadmap { get; set; }
     public List<Questions> Questions { get; set; } = [];
+    public void SetId(int id)
+    {
+        IdRoadmap = id;
+    }
 }

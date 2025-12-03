@@ -6,7 +6,6 @@ using SistemaConcurso.Application.Base;
 using SistemaConcurso.Domain.Base;
 using SistemaConcurso.Domain.Entities;
 using SistemaConcurso.Domain.Interfaces.Ai;
-using SistemaConcurso.Domain.Interfaces.Token;
 using SistemaConcurso.Domain.Services;
 using SistemaConcurso.PgRepository.Base;
 

@@ -16,6 +16,13 @@ public class LessonAssessmentService(ILessonAssessmentRepository rep) : BaseServ
         return assessment;
     }
 
-    public Task<int> GetMaxRetryNumberAsync(int subjectId) =>
-        rep.Get().Where(x => x.IdLesson == subjectId).MaxAsync(x => x.RetryNumber);
+    public async Task<int> GetMaxRetryNumberAsync(int subjectId)
+    {
+        var max = await rep.Get()
+            .Where(x => x.IdLesson == subjectId)
+            .Select(x => (int?)x.RetryNumber)
+            .MaxAsync();
+
+        return max ?? 0;
+    }
 }
