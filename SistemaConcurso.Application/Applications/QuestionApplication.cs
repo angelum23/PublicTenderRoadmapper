@@ -25,8 +25,9 @@ public class QuestionApplication(IQuestionService service,
         var questionViews = await aiService.GenerateQuestions(subject, dto.Quantity);
         var view = new QuestionGenerationView { Questions = questionViews };
         var assessment = factory.Create(dto.Origin);
+        assessment.SetId(subject.Id);
         
-        using (var scope = new TransactionScope())
+        using (var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
         {
             var assessmentService = factory.CreateService(dto.Origin);
             var reg = await assessmentService.AddAsync(assessment, dto.SubjectId);
