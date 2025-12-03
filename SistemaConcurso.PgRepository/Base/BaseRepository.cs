@@ -23,8 +23,6 @@ public class BaseRepository<T>(PgDbContext db) : IBaseRepository<T> where T : cl
 
     public async Task<T> AddAsync(T entity)
     {
-        entity.LastUpdateDate = DateTime.Now;
-        entity.RegisterDate = DateTime.Now;
         await _set.AddAsync(entity);
         return entity;
     }
@@ -46,7 +44,6 @@ public class BaseRepository<T>(PgDbContext db) : IBaseRepository<T> where T : cl
 
     public T Update(T entity)
     {
-        entity.LastUpdateDate = DateTime.Now;
         _set.Update(entity);
         return entity;
     }
