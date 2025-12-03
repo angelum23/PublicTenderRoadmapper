@@ -3,6 +3,7 @@ using SistemaConcurso.Domain.Interfaces.DPs;
 using SistemaConcurso.Domain.Views.AiViews;
 using System.Net.Http.Json;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using SistemaConcurso.Domain.Views;
 
 namespace SistemaConcurso.Domain.Services;
@@ -17,7 +18,8 @@ public class AiService(HttpClient httpClient) : IAiService
     
     private static readonly JsonSerializerOptions _jsonOptions = new()
     {
-        PropertyNameCaseInsensitive = true
+        PropertyNameCaseInsensitive = true,
+        Converters = { new JsonStringEnumConverter() }
     };
 
     public async Task<ExamDataView> ExtractExamData(string noticeText)
@@ -82,14 +84,35 @@ public class AiService(HttpClient httpClient) : IAiService
 
     public async Task<List<QuestionView>> GenerateQuestions(ISubject subject, int quantity)
     {
-        var payload = new { subject, quantity };
+        var assessmentType = subject.GetAssessmentTypeString();
+        var payload = new
+        {
+            subject = new
+            {
+                subject.Title, 
+                subject.Description, 
+                assessmentType
+            },
+            quantity
+        };
 
         var response = await httpClient.PostAsJsonAsync(GenerateQuestionsEndpoint, payload);
         response.EnsureSuccessStatusCode();
 
-        var result = await response.Content.ReadFromJsonAsync<QuestionsWrapper>(_jsonOptions);
-        if(result == null) throw new Exception();
+        var jsonResponse = await response.Content.ReadAsStringAsync();
+
+        try
+        {
+            var result = JsonSerializer.Deserialize<QuestionsWrapper>(jsonResponse, _jsonOptions);
+            
+            if (result?.Questions?.Questions == null) 
+                throw new Exception("A lista de questões veio vazia ou nula.");
         
-        return result.Questions;
+            return result.Questions.Questions;
+        }
+        catch (JsonException ex)
+        {
+            throw new Exception($"Erro ao processar o JSON de questões: {jsonResponse}", ex);
+        }
     }
 }

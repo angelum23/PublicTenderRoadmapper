@@ -22,4 +22,5 @@ public class Roadmaps : BaseEntity, ISubject
     public List<RoadmapAssessments> RoadmapAssessment { get; set; } = [];
 
     public EOrigin GetAssessmentType() => EOrigin.Assessment;
+    public string GetAssessmentTypeString() => "Assessment";
 }

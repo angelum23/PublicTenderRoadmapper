@@ -34,6 +34,8 @@ public class Lessons : BaseEntity, ISubject
     }
 
     public EOrigin GetAssessmentType() => EOrigin.Lesson;
+    public string GetAssessmentTypeString() => "Lesson";
+    
     
     #endregion
 }

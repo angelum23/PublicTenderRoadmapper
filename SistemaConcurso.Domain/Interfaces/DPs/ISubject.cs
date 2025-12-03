@@ -8,4 +8,5 @@ public interface ISubject
     public string Title { get; set; }
     public string Description { get; set; }
     public EOrigin GetAssessmentType();
+    public string GetAssessmentTypeString();
 }

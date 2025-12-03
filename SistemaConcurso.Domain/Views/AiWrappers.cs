@@ -4,6 +4,11 @@ namespace SistemaConcurso.Domain.Views;
 
 public class QuestionsWrapper
 {
+    public QuestionsContainer Questions { get; set; }
+}
+
+public class QuestionsContainer
+{
     public List<QuestionView> Questions { get; set; }
 }
 
