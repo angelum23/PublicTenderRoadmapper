@@ -32,32 +32,33 @@ public class RoadmapApplication(IRoadmapService service,
         return await service.GetHomeData(exams);
     }
 
-    public async Task Generate(RoadmapGenerateDto dto)
+    public async Task<int> Generate(RoadmapGenerateDto dto)
     {
         var exam = await examService.FindAsync(dto.examId);
         var jobRole = await jobRoleService.FindAsync(dto.selectedJobRoleId);
+        var user = claimService.GetLoggedUser();
         
         var roadmapView = await aiService.GenerateRoadmap(jobRole.Name, exam.Notice);
-        var roadmap = roadmapView.ToRoadmap(exam.Id, jobRole.Id);
+        var roadmap = roadmapView.ToRoadmap(exam.Id, jobRole.Id, user.Id);
 
-        using (var scope = new TransactionScope())
-        {
-            var reg = await service.SaveAsync(roadmap);
-            await CommitAsync();
+        using var scope = new TransactionScope(); //---
+        var reg = await service.SaveAsync(roadmap);
+        await CommitAsync();
 
-            var modules = roadmapView.Modules.Select(x => x.ToModule(reg.Id)).ToList();
-            var regModules = await moduleService.AddRangeAsync(modules);
-            await CommitAsync();
+        var modules = roadmapView.Modules.Select(x => x.ToModule(reg.Id, user.Id)).ToList();
+        var regModules = await moduleService.AddRangeAsync(modules);
+        await CommitAsync();
             
-            var lessons = roadmapView
-                .Modules
-                .SelectMany(x => x.Lessons.Select(y => y.ToLesson(regModules.First(z => z.Order == x.Order).Id)))
-                .ToList();
+        var lessons = roadmapView
+            .Modules
+            .SelectMany(x => x.Lessons.Select(y => y.ToLesson(regModules.First(z => z.Order == x.Order).Id, user.Id)))
+            .ToList();
             
-            await lessonService.AddRangeAsync(lessons);
-            await CommitAsync();
+        await lessonService.AddRangeAsync(lessons);
+        await CommitAsync();
             
-            scope.Complete();
-        }
+        scope.Complete(); //---
+
+        return reg.Id;
     }
 }

@@ -16,5 +16,5 @@ public class RoadmapController(IRoadmapApplication aplic) : BaseController<Roadm
         await SafeController(aplic.Home(pagination));
     
     [HttpPost("Generate")]
-    public async Task<IActionResult> Generate([FromBody] RoadmapGenerateDto dto) => await SafeController(aplic.Generate(dto));
+    public async Task<IActionResult> Generate([FromBody] RoadmapGenerateDto dto) => await SafeController(aplic.Generate(dto), "Roadmap generated successfully!");
 }
