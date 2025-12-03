@@ -66,6 +66,8 @@ public class ExamApplication(IExamService service,
             jobRoles = examData.ToJobRoles(exam.Id);
             await jobRoleService.AddRangeAsync(jobRoles);
             await CommitAsync();
+            
+            scope.Complete();
         }
         
         return new NoticeRegisterView(

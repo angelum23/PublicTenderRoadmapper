@@ -37,25 +37,25 @@ public class PgDbContext(DbContextOptions options, IClaimService claimService) :
                 });
             });
 
-        var entities = modelBuilder.Model.GetEntityTypes().ToList();
-        entities.ForEach(x => ApplyQueryFilters(x, modelBuilder));
+        // var entities = modelBuilder.Model.GetEntityTypes().ToList();
+        // entities.ForEach(x => ApplyQueryFilters(x, modelBuilder));
     }
 
-    private void ApplyQueryFilters(IMutableEntityType entityType, ModelBuilder modelBuilder)
-    {
-        var clrType = entityType.ClrType;
-        if (!typeof(IBaseEntity).IsAssignableFrom(clrType)) return;
-        
-        var parameter = Expression.Parameter(clrType, "e");
-        
-        var userIdProperty = Expression.PropertyOrField(parameter, nameof(IBaseEntity.UserId));
-        var currentUserProp = Expression.Property(Expression.Constant(this), nameof(CurrentUserId));
-        var body = Expression.Equal(
-            Expression.Convert(userIdProperty, typeof(int?)),
-            Expression.Convert(currentUserProp, typeof(int?))
-        );
-
-        var lambda = Expression.Lambda(body, parameter);
-        modelBuilder.Entity(clrType).HasQueryFilter(lambda);
-    }
+    // private void ApplyQueryFilters(IMutableEntityType entityType, ModelBuilder modelBuilder)
+    // {
+    //     var clrType = entityType.ClrType;
+    //     if (!typeof(IBaseEntity).IsAssignableFrom(clrType)) return;
+    //     
+    //     var parameter = Expression.Parameter(clrType, "e");
+    //     
+    //     var userIdProperty = Expression.PropertyOrField(parameter, nameof(IBaseEntity.UserId));
+    //     var currentUserProp = Expression.Property(Expression.Constant(this), nameof(CurrentUserId));
+    //     var body = Expression.Equal(
+    //         Expression.Convert(userIdProperty, typeof(int?)),
+    //         Expression.Convert(currentUserProp, typeof(int?))
+    //     );
+    //
+    //     var lambda = Expression.Lambda(body, parameter);
+    //     modelBuilder.Entity(clrType).HasQueryFilter(lambda);
+    // }
 }

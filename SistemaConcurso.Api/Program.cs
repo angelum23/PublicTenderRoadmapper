@@ -51,10 +51,11 @@ builder.Services
     .AddAuthorization()
     .AddControllers();
 
-builder.Services.AddHttpClient<IAiService, AiMockService>(client =>
-{
-    client.BaseAddress = new Uri(AiService.BaseUrl);
-});
+builder.Services.AddScoped<IAiService, AiMockService>();
+// builder.Services.AddHttpClient<IAiService, AiService>(client =>
+// {
+//     client.BaseAddress = new Uri(AiService.BaseUrl);
+// });
 
 var app = builder.Build();
 
