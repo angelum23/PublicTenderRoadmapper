@@ -1,4 +1,5 @@
 using SistemaConcurso.Domain.Base.Interfaces;
+using SistemaConcurso.Domain.Entities;
 using SistemaConcurso.Domain.Interfaces;
 using SistemaConcurso.Domain.Interfaces.Base;
 
@@ -8,7 +9,7 @@ public class BaseApplication<T>(IBaseService<T> service, IUnitOfWork uow) : IBas
 {
     public Task<int> CommitAsync() => uow.CommitAsync();
     public int Commit() => uow.Commit();
-    public List<T> Get(IPagination pagination) => service.Get(pagination);
+    public List<T> Get(Pagination pagination) => service.Get(pagination);
 
     public Task<T> FindAsync(int id) => service.FindAsync(id);
 

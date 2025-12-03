@@ -10,6 +10,6 @@ namespace SistemaConcurso.Api.Controllers;
 public class ModuleController(IModuleApplication aplic) : BaseController<Modules>(aplic)
 {
     [HttpGet("List/{roadmapId:int}")]
-    public async Task<IActionResult> List([FromHeader] IPagination pagination, int roadmapId) =>
+    public async Task<IActionResult> List([FromHeader] Pagination pagination, int roadmapId) =>
         await SafeController(aplic.List(pagination, roadmapId));
 }

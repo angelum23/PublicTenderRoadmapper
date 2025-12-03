@@ -8,5 +8,5 @@ namespace SistemaConcurso.Domain.Interfaces.Module;
 
 public interface IModuleService : IBaseService<Modules>, ISubjectService
 {
-    Task<List<ModuleView>> List(IPagination pagination, int idRoadmap);
+    Task<List<ModuleView>> List(Pagination pagination, int idRoadmap);
 }

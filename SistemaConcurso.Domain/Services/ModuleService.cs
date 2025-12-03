@@ -11,7 +11,7 @@ namespace SistemaConcurso.Domain.Services;
 
 public class ModuleService(IModuleRepository repository) : BaseService<Modules>(repository), IModuleService
 {
-    public Task<List<ModuleView>> List(IPagination pagination, int idRoadmap)
+    public Task<List<ModuleView>> List(Pagination pagination, int idRoadmap)
     {
         return repository.List(pagination, idRoadmap).ToListAsync();
     }

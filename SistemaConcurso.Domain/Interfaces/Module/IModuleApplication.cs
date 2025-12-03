@@ -6,5 +6,5 @@ namespace SistemaConcurso.Domain.Interfaces.Module;
 
 public interface IModuleApplication : IBaseApplication<Modules>
 {
-    Task<List<ModuleView>> List(IPagination pagination, int roadmapId);
+    Task<List<ModuleView>> List(Pagination pagination, int roadmapId);
 }
