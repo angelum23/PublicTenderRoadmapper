@@ -50,6 +50,16 @@ builder.Services
     .AddAuthorization()
     .AddControllers();
 
+builder.Services.AddCors(options => 
+{
+    options.AddDefaultPolicy(policy =>
+    {
+        policy.AllowAnyOrigin()
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
+
 builder.Services.AddScoped<IAiService, AiMockService>();
 // builder.Services.AddHttpClient<IAiService, AiService>(client =>
 // {
@@ -59,6 +69,7 @@ builder.Services.AddScoped<IAiService, AiMockService>();
 var app = builder.Build();
 
 app.MapOpenApi();
+app.UseCors("AllowAll");
 
 app.UseHttpsRedirection();
 app.UseAuthentication();
