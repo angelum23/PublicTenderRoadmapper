@@ -10,10 +10,11 @@ public class LessonAssessmentService(ILessonAssessmentRepository rep) : BaseServ
 {
     public async Task<IAssessment> AddAsync(IAssessment assessment, int subjectId)
     {
-        assessment.RetryNumber = await GetMaxRetryNumberAsync(subjectId) + 1;
+        if (assessment.RetryNumber <= 0) assessment.RetryNumber = await GetMaxRetryNumberAsync(subjectId) + 1;
+        
         var lessonAssessment = (LessonAssessments)assessment;
-        await base.AddAsync(lessonAssessment);
-        return assessment;
+        var reg = await base.AddAsync(lessonAssessment);
+        return reg;
     }
 
     public async Task<int> GetMaxRetryNumberAsync(int subjectId)

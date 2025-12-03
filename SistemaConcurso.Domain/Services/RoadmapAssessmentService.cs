@@ -10,12 +10,20 @@ public class RoadmapAssessmentService(IRoadmapAssessmentRepository rep) : BaseSe
 {
     public async Task<IAssessment> AddAsync(IAssessment assessment, int subjectId)
     {
-        assessment.RetryNumber = await GetMaxRetryNumberAsync(subjectId) + 1;
+        if (assessment.RetryNumber <= 0) assessment.RetryNumber = await GetMaxRetryNumberAsync(subjectId) + 1;
+        
         var roadmapAssessment = (RoadmapAssessments)assessment;
-        await base.AddAsync(roadmapAssessment);
-        return assessment;
+        var reg = await base.AddAsync(roadmapAssessment);
+        return reg;
     }
 
-    public Task<int> GetMaxRetryNumberAsync(int subjectId) =>
-        rep.Get().Where(x => x.IdRoadmap == subjectId).MaxAsync(x => x.RetryNumber);
+    public async Task<int> GetMaxRetryNumberAsync(int subjectId)
+    {
+        var max = await rep.Get()
+            .Where(x => x.IdRoadmap == subjectId)
+            .Select(x => (int?)x.RetryNumber)
+            .MaxAsync();
+
+        return max ?? 0;
+    }
 }

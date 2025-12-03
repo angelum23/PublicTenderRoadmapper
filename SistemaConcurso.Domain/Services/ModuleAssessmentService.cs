@@ -16,8 +16,14 @@ public class ModuleAssessmentService(IModuleAssessmentRepository rep) : BaseServ
         var reg = await base.AddAsync(moduleAssessment);
         return reg;
     }
-        
+    
+    public async Task<int> GetMaxRetryNumberAsync(int subjectId)
+    {
+        var max = await rep.Get()
+            .Where(x => x.IdModule == subjectId)
+            .Select(x => (int?)x.RetryNumber)
+            .MaxAsync();
 
-    public Task<int> GetMaxRetryNumberAsync(int subjectId) =>
-        rep.Get().Where(x => x.IdModule == subjectId).MaxAsync(x => x.RetryNumber);
+        return max ?? 0;
+    }
 }
