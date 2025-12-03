@@ -25,7 +25,7 @@ public class RoadmapApplication(IRoadmapService service,
                                 ILessonService lessonService) 
     : BaseApplication<Roadmaps>(service, uow), IRoadmapApplication
 {
-    public async Task<List<HomeView>> Home(IPagination pagination)
+    public async Task<List<HomeView>> Home(Pagination pagination)
     {
         var user = claimService.GetLoggedUser();
         var exams = await examService.GetHomeData(pagination, user.Id);

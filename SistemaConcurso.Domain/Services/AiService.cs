@@ -7,9 +7,9 @@ using SistemaConcurso.Domain.Views;
 
 namespace SistemaConcurso.Domain.Services;
 
-public class AiService(HttpClient httpClient)// : IAiService
+public class AiService(HttpClient httpClient) : IAiService
 {
-    public const string BaseUrl = "http://127.0.0.1:5000/";
+    public const string BaseUrl = "https://projeto-integrador-ia-4a0661fec346.herokuapp.com/";
     private const string ExtractExamDataEndpoint = "extract_notice_data";
     private const string SearchExamEndpoint = "search_notice";
     private const string GenerateRoadmapEndpoint = "extract_roadmap";
@@ -40,10 +40,21 @@ public class AiService(HttpClient httpClient)// : IAiService
         var response = await httpClient.PostAsJsonAsync(SearchExamEndpoint, payload);
         response.EnsureSuccessStatusCode();
 
-        var result = await response.Content.ReadFromJsonAsync<ExamDataWrapper>(_jsonOptions);
-        if(result == null) throw new Exception();
+        var jsonResponse = await response.Content.ReadAsStringAsync();
         
-        return result.ExamDataView;
+        try 
+        {
+            var result = JsonSerializer.Deserialize<ExamSearchWrapper>(jsonResponse, _jsonOptions);
+        
+            if (result?.ExamDataView?.Notices == null || !result.ExamDataView.Notices.Any()) 
+                throw new Exception("No exam found on AI response.");
+        
+            return result.ExamDataView.Notices.First();
+        }
+        catch (JsonException ex)
+        {
+            throw new Exception($"Error deserializing JSON: {jsonResponse}", ex);
+        }
     }
 
     public async Task<RoadmapDataView> GenerateRoadmap(string selectedJobRole, string notice)
@@ -51,12 +62,22 @@ public class AiService(HttpClient httpClient)// : IAiService
         var payload = new { selectedJobRole, notice };
 
         var response = await httpClient.PostAsJsonAsync(GenerateRoadmapEndpoint, payload);
+        var jsonResponse = await response.Content.ReadAsStringAsync();
         response.EnsureSuccessStatusCode();
 
-        var result = await response.Content.ReadFromJsonAsync<RoadmapDataWrapper>(_jsonOptions);
-        if(result == null) throw new Exception();
-        
-        return result.RoadmapDataView;
+        try
+        {
+            var result = JsonSerializer.Deserialize<RoadmapDataWrapper>(jsonResponse, _jsonOptions);
+
+            if (result?.RoadmapDataView == null) 
+                throw new Exception("No exam found on AI response.");
+            
+            return result.RoadmapDataView;
+        }
+        catch (JsonException ex)
+        {
+            throw new Exception($"Error deserializing JSON: {jsonResponse}", ex);
+        }
     }
 
     public async Task<List<QuestionView>> GenerateQuestions(ISubject subject, int quantity)

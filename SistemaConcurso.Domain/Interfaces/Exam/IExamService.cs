@@ -8,5 +8,5 @@ namespace SistemaConcurso.Domain.Interfaces.Exam;
 
 public interface IExamService : IBaseService<Exams>
 {
-    Task<List<HomeExamView>> GetHomeData(IPagination pagination, int userId);
+    Task<List<HomeExamView>> GetHomeData(Pagination pagination, int userId);
 }

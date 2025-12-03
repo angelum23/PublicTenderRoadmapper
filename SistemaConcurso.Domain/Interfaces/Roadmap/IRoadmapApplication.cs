@@ -8,6 +8,6 @@ namespace SistemaConcurso.Domain.Interfaces.Roadmap;
 
 public interface IRoadmapApplication : IBaseApplication<Roadmaps>
 {
-    Task<List<HomeView>> Home(IPagination pagination);
+    Task<List<HomeView>> Home(Pagination pagination);
     Task<int> Generate(RoadmapGenerateDto dto);
 }

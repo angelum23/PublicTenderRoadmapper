@@ -9,7 +9,7 @@ namespace SistemaConcurso.PgRepository.Repositories;
 
 public class ExamRepository(PgDbContext db) : BaseRepository<Exams>(db), IExamRepository
 {
-    public IQueryable<HomeExamView> GetHomeData(int userId, IPagination pagination)
+    public IQueryable<HomeExamView> GetHomeData(int userId, Pagination pagination)
     {
         return Get()
             .Where(x => x.IdUser == userId)

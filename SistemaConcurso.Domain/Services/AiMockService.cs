@@ -6,7 +6,7 @@ using SistemaConcurso.Domain.Views.AiViews;
 
 namespace SistemaConcurso.Domain.Services;
 
-public class AiMockService : IAiService
+public class AiMockService// : IAiService
 {
     public Task<ExamDataView> ExtractExamData(string noticeText) => Task.FromResult(GetExamMock(noticeText));
     public Task<ExamDataView> SearchExam(string prompt) => Task.FromResult(GetExamMock());
