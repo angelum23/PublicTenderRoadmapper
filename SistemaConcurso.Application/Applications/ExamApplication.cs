@@ -61,11 +61,11 @@ public class ExamApplication(IExamService service,
         using (var scope = new TransactionScope())
         {
             exam = await service.SaveAsync(examData.ToExam(userId));
-            await CommitAsync();
+            Commit();
 
-            jobRoles = examData.ToJobRoles(exam.Id);
+            jobRoles = examData.ToJobRoles(exam.Id, userId);
             await jobRoleService.AddRangeAsync(jobRoles);
-            await CommitAsync();
+            Commit();
             
             scope.Complete();
         }
@@ -83,11 +83,11 @@ public class ExamApplication(IExamService service,
         {
             var jobRoles = (await jobRoleService.GetByExamId(id)).Select(x => x.Id).ToList();
             jobRoles.ForEach(x => jobRoleService.RemoveAsync(x));
-            await CommitAsync();
+            Commit();
             
             var roadmaps = (await roadmapService.GetByExamId(id)).Select(x => x.Id).ToList();
             roadmaps.ForEach(x => roadmapService.RemoveAsync(x));
-            await CommitAsync();
+            Commit();
             
             scope.Complete();
             return await base.RemoveAsync(id);

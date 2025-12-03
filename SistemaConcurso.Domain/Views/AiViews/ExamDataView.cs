@@ -17,12 +17,13 @@ public class ExamDataView
         NoticeTitle = NoticeTitle
     };
 
-    public List<JobRoles> ToJobRoles(int idExam)
+    public List<JobRoles> ToJobRoles(int idExam, int idUser)
     {
         return JobRoles.Select(x => new JobRoles()
         {
             IdExam = idExam,
             Name = x.Name,
+            UserId = idUser,
             Description = x.Description
         }).ToList();
     }
